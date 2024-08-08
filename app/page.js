@@ -1,95 +1,171 @@
-import Image from "next/image";
-import styles from "./page.module.css";
-
+"use client";
+import { useState } from "react";
+import { Box, Button, Stack, TextField } from "@mui/material";
 export default function Home() {
+  
+  const greetingMessage = `
+Hey there! I'm Adam, your plant growing expert. 😊 What can I help you with today? 🌱 
+Indoor, outdoor, or backyard garden - I'm here to guide you! Let's get growing!
+`;
+
+  const [messages, setMessages] = useState([
+    { role: 'model', text: greetingMessage },
+  ]);
+  const [input, setInput] = useState('');
+  const [isSending, setIsSending] = useState(false);
+
+  const sendMessage = async () => {
+    const newMessage = { role: 'user', text: input };
+    const updatedMessages = [...messages, newMessage];
+    setMessages(updatedMessages);
+    setInput('');
+    setIsSending(true);
+
+    const history = updatedMessages.map(msg => ({
+      role: msg.role,
+      parts: [{ text: msg.text }],
+    }));
+
+    try {
+      const response = await fetch('/api/chatbot', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: input,
+          history,
+        }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        const botMessage = { role: 'model', text: data.text };
+        setMessages([...updatedMessages, botMessage]);
+      } else {
+        console.error('Error response from server:', data.error);
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+    } finally {
+      setIsSending(false);
+    }
+  };
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+
+    <Box
+  width="100vw"
+  height="100vh"
+  display="flex"
+  justifyContent="center"
+  alignItems="center"
+  position="relative"
+  sx={{
+    backgroundImage: 'url("rootrangerbg.png")',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  }}
+>
+  <Stack
+    direction={"column"}
+    width="800px"
+    height="800px"
+    border="1px solid black"
+    p={2}
+    position="absolute"
+    top="8%"
+    left="50%"
+    transform="translate(-50%, -50%)"
+    bgcolor="rgba(255, 255, 255, 0.9)" // Optional: to make the background slightly transparent
+  >
+    <Stack direction={"column"} spacing={2} flexGrow={1}>
+      {messages.map((msg, index) => {
+        return (
+          <Box
+            key={index}
+            display="flex"
+            justifyContent={
+              msg.role === "model" ? "flex-start" : "flex-end"
+            }
           >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+            <Box
+              bgcolor={
+                msg.role === "model"
+                  ? "primary.main"
+                  : "secondary.main"
+              }
+              color="white"
+              borderRadius={4}
+              p={2}
+            >
+              {msg.text}
+            </Box>
+          </Box>
+        );
+      })}
+    </Stack>
+    <Stack direction={"row"} spacing={2}>
+      <TextField
+        label="Messages"
+        fullWidth
+        onChange={(e) => setInput(e.target.value)}
+        value={input}
+      />
+      <Button variant="contained" onClick={sendMessage}>
+        Send
+      </Button>
+    </Stack>
+  </Stack>
+</Box>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+
+
+
+    // <Box
+    //   width="100vw"
+    //   height="100vh"
+    //   display="flex"
+    //   flexDirection="column"
+    //   justifyContent="center"
+    //   alignItems="center"
+    // >
+    //   <Stack direction={"column"} width="500px" height="700px" border="1px solid black" p={2}>
+    //     <Stack direction={"column"} spacing={2}  flexGrow={1}>
+    //       {messages.map((msg, index) => {
+    //         return (
+    //           <Box
+    //             key={index}
+    //             display="flex"
+    //             justifyContent={
+    //               msg.role === "model" ? "flex-start" : "flex-end"
+    //             }
+    //           >
+    //             <Box
+    //               bgcolor={
+    //                 msg.role === "model"
+    //                   ? "primary.main"
+    //                   : "secondary.main"
+    //               }
+    //               color="white"
+    //               borderRadius={6}
+    //               p={2}
+    //             >
+    //               {msg.text}
+    //             </Box>
+    //           </Box>
+    //         );
+    //       })}
+    //     </Stack>
+    //     <Stack direction={"row"} spacing={2}>
+    //       <TextField label="Messages" fullWidth onChange={(e) => setInput(e.target.value)} value={input}/>
+    //       <Button variant="Contained" onClick={sendMessage}>Send</Button>
+    //     </Stack>
+    //   </Stack>
+    // </Box>
   );
 }
