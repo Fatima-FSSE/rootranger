@@ -62,7 +62,7 @@ Indoor, outdoor, or backyard garden - I'm here to guide you! Let's get growing!
   alignItems="center"
   position="relative"
   sx={{
-    backgroundImage: 'url("rootrangerbg.png")',
+    backgroundImage: 'url("rootrangerbg.jpg")',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
   }}
