@@ -46,13 +46,14 @@ export default function SignInSide() {
         email,
         password,
         redirect: false,
-        callbackUrl: "/",
+        callbackUrl: "/chatbot",
       });
 
       if (result.status === 401) {
         setError("Unauthorized user");
+        console.log("Unauthorized User")
       } else {
-        router.push(result.url || "/pantry");
+        router.push(result.url || "/chatbot");
       }
     } catch (error) {
       console.log(error);
@@ -70,7 +71,7 @@ export default function SignInSide() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: 'url("")',
+            backgroundImage: 'url("Lets.jpg")',
             backgroundColor: (t) =>
               t.palette.mode === "light"
                 ? t.palette.grey[50]

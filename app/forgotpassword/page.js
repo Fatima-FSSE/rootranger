@@ -49,7 +49,7 @@ export default function Forgotpassword() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: 'url("")',
+            backgroundImage: 'url("Lets.jpg")',
             backgroundColor: (t) =>
               t.palette.mode === "light"
                 ? t.palette.grey[50]

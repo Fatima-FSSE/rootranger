@@ -1,224 +1,155 @@
 "use client";
-import { useState, useEffect } from "react";
-import {
-  Box,
-  Button,
-  Stack,
-  TextField,
-  IconButton,
-  Avatar,
-} from "@mui/material";
-import ChatIcon from "@mui/icons-material/Chat"; // Make sure to install MUI icons if not already
-
+import "bootstrap/dist/css/bootstrap.min.css";
 export default function Home() {
-  const greetingMessage = `
-Hey there! I'm Adam, your plant growing expert. 😊 What can I help you with today? 🌱 
-Indoor, outdoor, or backyard garden - I'm here to guide you! Let's get growing!
-`;
-
-  const [messages, setMessages] = useState([
-    { role: "model", text: greetingMessage },
-  ]);
-  const [input, setInput] = useState("");
-  const [isSending, setIsSending] = useState(false);
-  const [displayText, setDisplayText] = useState("");
-  const [currentMessage, setCurrentMessage] = useState("");
-  const [chatOpen, setChatOpen] = useState(false); // State to handle chat visibility
-
-  const typeText = (text, index = 0) => {
-    if (index < text.length) {
-      setDisplayText((prev) => prev + text[index]);
-      setTimeout(() => typeText(text, index + 1), 15);
-    }
-  };
-
-  useEffect(() => {
-    if (currentMessage) {
-      setDisplayText("");
-      typeText(currentMessage);
-    }
-  }, [currentMessage]);
-
-  useEffect(() => {
-    setCurrentMessage(greetingMessage);
-  }, []);
-
-  const sendMessage = async () => {
-    const newMessage = { role: "user", text: input };
-    const updatedMessages = [...messages, newMessage];
-    setMessages(updatedMessages);
-    setInput("");
-    setIsSending(true);
-
-    try {
-      const response = await fetch("/api/chatbot", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          message: input,
-          history: updatedMessages.map((msg) => ({
-            role: msg.role,
-            parts: [{ text: msg.text }],
-          })),
-        }),
-      });
-
-      const data = await response.json();
-      if (response.ok) {
-        const botMessage = { role: "model", text: data.text };
-        updatedMessages.push(botMessage);
-        setMessages(updatedMessages);
-        setCurrentMessage(data.text);
-      } else {
-        console.error("Error response from server:", data.error);
-      }
-    } catch (error) {
-      console.error("Error sending message:", error);
-    } finally {
-      setIsSending(false);
-    }
-  };
-
   return (
-    <Box
-      width="100%"
-      height="100vh"
-      display="flex"
-      justifyContent="flex-end"
-      alignItems="flex-end"
-      sx={{
-        backgroundImage: 'url("rootrangerbg.jpg")',
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        position: "relative",
-      }}
-    >
-      {chatOpen ? (
-        <Stack
-          direction={"column"}
-          width="500px" // Fixed width
-          height="600px" // Fixed height
-          border="1px solid black"
-          p={2}
-          bgcolor="rgba(255, 255, 255, 0.8)"
-          sx={{
-            overflowY: "auto",
-            marginBottom: "20px",
-            marginRight: "20px",
-            borderRadius: "10px",
-            position: "absolute",
-            bottom: 80, // Offset by the height of the button
-            right: 20,
-            zIndex: 5,
-          }}
+    <main>
+      <div className="container" style={{ width: "90%" }}>
+        {/* Carousel */}
+        <div
+          id="carouselExampleCaptions"
+          className="carousel carousel-dark slide"
+          data-bs-ride="carousel"
         >
-          <Stack direction={"column"} spacing={2} flexGrow={1} mb={2}>
-            {" "}
-            {messages.map((msg, index) => (
-              <Box
-                key={index}
-                display="flex"
-                justifyContent={
-                  msg.role === "model" ? "flex-start" : "flex-end"
-                }
-                sx={{ width: "100%" }}
-              >
-                <Box
-                  bgcolor={msg.role === "model" ? "green" : "lightgreen"}
-                  color="white"
-                  borderRadius="16px"
-                  p={2}
-                  sx={{ maxWidth: "100%", wordWrap: "break-word" }}
-                >
-                  {msg.role === "model" && index === messages.length - 1
-                    ? displayText
-                    : msg.text}
-                </Box>
-              </Box>
-            ))}
-          </Stack>
-          <Stack direction={"row"} spacing={2}>
-            <TextField
-              label="Messages"
-              fullWidth
-              onChange={(e) => setInput(e.target.value)}
-              value={input}
-              disabled={isSending}
-            />
-            <Button
-              variant="contained"
-              onClick={sendMessage}
-              disabled={isSending}
-            >
-              Send
-            </Button>
-          </Stack>
-        </Stack>
-      ) : null}
-      <IconButton
-        onClick={() => setChatOpen(!chatOpen)}
-        sx={{
-          color: "white",
-          backgroundColor: "green",
-          "&:hover": {
-            backgroundColor: "darkgreen",
-          },
-          position: "absolute",
-          bottom: 20,
-          right: 20,
-          zIndex: 10,
-          borderRadius: "50%",
-          border: "2px solid white",
-        }}
-      >
-        <Avatar sx={{ bgcolor: "transparent" }}>
-          <ChatIcon />
-        </Avatar>
-      </IconButton>
-    </Box>
-  );
+          <div className="carousel-indicators">
+            <button
+              type="button"
+              data-bs-target="#carouselExampleCaptions"
+              data-bs-slide-to="0"
+              className="active"
+              aria-current="true"
+              aria-label="Slide 1"
+              data-bs-ride="carousel"
+            ></button>
+            <button
+              type="button"
+              data-bs-target="#carouselExampleCaptions"
+              data-bs-slide-to="1"
+              aria-label="Slide 2"
+            ></button>
+            <button
+              type="button"
+              data-bs-target="#carouselExampleCaptions"
+              data-bs-slide-to="2"
+              aria-label="Slide 3"
+            ></button>
+            <button
+              type="button"
+              data-bs-target="#carouselExampleCaptions"
+              data-bs-slide-to="3"
+              aria-label="Slide 4"
+            ></button>
+            <button
+              type="button"
+              data-bs-target="#carouselExampleCaptions"
+              data-bs-slide-to="4"
+              aria-label="Slide 5"
+            ></button>
+            <button
+              type="button"
+              data-bs-target="#carouselExampleCaptions"
+              data-bs-slide-to="5"
+              aria-label="Slide 6"
+            ></button>
+            <button
+              type="button"
+              data-bs-target="#carouselExampleCaptions"
+              data-bs-slide-to="6"
+              aria-label="Slide 7"
+            ></button>
+          </div>
+          <div className="carousel-inner">
+            <div className="carousel-item active">
+              <img src="1.jpg" className="d-block w-100" alt="Slide 1" />
+            </div>
+            <div className="carousel-item">
+              <img src="2.jpg" className="d-block w-100" alt="Slide 2" />
+            </div>
+            <div className="carousel-item">
+              <img src="3.jpg" className="d-block w-100" alt="Slide 3" />
+            </div>
+            <div className="carousel-item">
+              <img src="4.jpg" className="d-block w-100" alt="Slide 4" />
+            </div>
+            <div className="carousel-item">
+              <img src="5.jpg" className="d-block w-100" alt="Slide 5" />
+            </div>
+            <div className="carousel-item">
+              <img src="6.jpg" className="d-block w-100" alt="Slide 6" />
+            </div>
+            <div className="carousel-item">
+              <img src="7.jpg" className="d-block w-100" alt="Slide 7" />
+            </div>
+          </div>
+          <button
+            className="carousel-control-prev"
+            type="button"
+            data-bs-target="#carouselExampleCaptions"
+            data-bs-slide="prev"
+          >
+            <span
+              className="carousel-control-prev-icon"
+              aria-hidden="true"
+            ></span>
+            <span className="visually-hidden">Previous</span>
+          </button>
+          <button
+            className="carousel-control-next"
+            type="button"
+            data-bs-target="#carouselExampleCaptions"
+            data-bs-slide="next"
+          >
+            <span
+              className="carousel-control-next-icon"
+              aria-hidden="true"
+            ></span>
+            <span className="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
 
-  // <Box
-  //   width="100vw"
-  //   height="100vh"
-  //   display="flex"
-  //   flexDirection="column"
-  //   justifyContent="center"
-  //   alignItems="center"
-  // >
-  //   <Stack direction={"column"} width="500px" height="700px" border="1px solid black" p={2}>
-  //     <Stack direction={"column"} spacing={2}  flexGrow={1}>
-  //       {messages.map((msg, index) => {
-  //         return (
-  //           <Box
-  //             key={index}
-  //             display="flex"
-  //             justifyContent={
-  //               msg.role === "model" ? "flex-start" : "flex-end"
-  //             }
-  //           >
-  //             <Box
-  //               bgcolor={
-  //                 msg.role === "model"
-  //                   ? "primary.main"
-  //                   : "secondary.main"
-  //               }
-  //               color="white"
-  //               borderRadius={6}
-  //               p={2}
-  //             >
-  //               {msg.text}
-  //             </Box>
-  //           </Box>
-  //         );
-  //       })}
-  //     </Stack>
-  //     <Stack direction={"row"} spacing={2}>
-  //       <TextField label="Messages" fullWidth onChange={(e) => setInput(e.target.value)} value={input}/>
-  //       <Button variant="Contained" onClick={sendMessage}>Send</Button>
-  //     </Stack>
-  //   </Stack>
-  // </Box>
+      {/* Feature Section */}
+      <section className="py-5">
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-4">
+              <div className="card h-100 text-center">
+                <div className="card-body">
+                  <i className="bi bi-star-fill mb-3"></i>
+                  <h5 className="card-title">Feature One</h5>
+                  <p className="card-text">
+                    Some quick example text to build on the card title and make
+                    up the bulk of the card&apos;s content.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="col-lg-4">
+              <div className="card h-100 text-center">
+                <div className="card-body">
+                  <i className="bi bi-lightning-fill mb-3"></i>
+                  <h5 className="card-title">Feature Two</h5>
+                  <p className="card-text">
+                    Some quick example text to build on the card title and make
+                    up the bulk of the card&apos;s content.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="col-lg-4">
+              <div className="card h-100 text-center">
+                <div className="card-body">
+                  <i className="bi bi-heart-fill mb-3"></i>
+                  <h5 className="card-title">Feature Three</h5>
+                  <p className="card-text">
+                    Some quick example text to build on the card title and make
+                    up the bulk of the card&apos;s content.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
 }
