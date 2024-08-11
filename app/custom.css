@@ -1,0 +1,83 @@
+/* Default styles for larger screens */
+.container-fluid {
+  background-color: #2e7d32;
+  overflow: hidden;
+}
+
+.carousel-inner .carousel-item img {
+  max-height: 650px;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.card-img-top {
+  max-height: 300px;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Responsive styles for small screens (max-width: 576px) */
+@media (max-width: 576px) {
+  .carousel.slide {
+    width: 90%;
+  }
+
+  .carousel-inner .carousel-item img {
+    max-height: 300px; /* Reduce the image height for smaller screens */
+  }
+
+  .card-img-top {
+    max-height: 200px; /* Reduce card image height */
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+}
+
+/* Responsive styles for medium screens (max-width: 768px) */
+@media (max-width: 768px) {
+  .carousel.slide {
+    width: 80%;
+  }
+
+  .carousel-caption {
+    font-size: 0.9rem; /* Adjust caption font size */
+    background-color: rgba(
+      0,
+      0,
+      0,
+      0.5
+    ); /* Add a semi-transparent background */
+    padding: 0.5rem;
+    border-radius: 5px;
+  }
+
+  .carousel-inner .carousel-item img {
+    max-height: 450px;
+  }
+
+  .card-body {
+    font-size: 0.9rem;
+  }
+}
+
+/* Responsive styles for large screens (max-width: 992px) */
+@media (max-width: 992px) {
+  .carousel.slide {
+    width: 70%;
+  }
+
+  .carousel-caption {
+    font-size: 1rem;
+  }
+}
