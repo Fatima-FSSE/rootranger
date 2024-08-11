@@ -24,11 +24,11 @@ return (
         <li className="nav-item">
             {session ? (
             <Link className="nav-link" href="/" onClick={() => signOut({ callbackUrl: '/' })}>
-                SignOut
+                Sign Out
             </Link>
             ) : (
             <Link className="nav-link" href="/signin" onClick={() => signIn()}>
-                SignIn
+                Sign In
             </Link>
             )}
         </li>

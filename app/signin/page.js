@@ -91,6 +91,7 @@ export default function SignInSide() {
               alignItems: "center",
             }}
           >
+          <button onClick={() => signIn('google',{callbackUrl: "/chatbot",})}><h2>Login with Google</h2></button>
             <Avatar sx={{ m: 1, bgcolor: "#FAA317" }}>
               <LockOutlinedIcon />
             </Avatar>
