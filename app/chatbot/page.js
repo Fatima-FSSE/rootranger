@@ -301,4 +301,5 @@ return (
 </>
 );
 }
+
 Home.requireAuth = true;
