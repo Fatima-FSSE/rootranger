@@ -14,9 +14,9 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useRouter } from "next/navigation";
-import { auth } from "../firebase";
 import { useState } from "react";
 import  { signIn }  from "next-auth/react";
+import Footer from '../components/Footer';
 
 const defaultTheme = createTheme();
 
@@ -62,6 +62,7 @@ export default function SignInSide() {
   };
 
   return (
+    <>
     <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: "95vh" }}>
         <CssBaseline />
@@ -157,7 +158,9 @@ export default function SignInSide() {
           </Box>
         </Grid>
       </Grid>
+      <Footer />
     </ThemeProvider>
+    </>
   );
 }
 

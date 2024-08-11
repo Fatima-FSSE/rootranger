@@ -9,7 +9,7 @@ IconButton,
 Avatar,
 Typography,
 } from "@mui/material";
-import ChatIcon from "@mui/icons-material/Chat"; 
+import ChatIcon from "@mui/icons-material/Chat";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import Navbar from "../components/Navbar";
@@ -29,17 +29,14 @@ Hey there! I'm Adam, your plant growing expert. 😊 What can I help you with to
 Indoor, outdoor, or backyard garden - I'm here to guide you! Let's get growing!
 `;
 
-const [messages, setMessages ] = useState([
-    {role: "model",
-    parts : [{text: greetingMessage}]    
-    },
-    
-])
+const [messages, setMessages] = useState([
+{ role: "model", parts: [{ text: greetingMessage }] },
+]);
 const [input, setInput] = useState("");
 const [isSending, setIsSending] = useState(false);
 const [displayText, setDisplayText] = useState("");
 const [currentMessage, setCurrentMessage] = useState("");
-  const [chatOpen, setChatOpen] = useState(false); // State to handle chat visibility
+const [chatOpen, setChatOpen] = useState(false); // State to handle chat visibility
 
 const messagesEndRef = useRef(null);
 
@@ -64,32 +61,31 @@ if (messagesEndRef.current) {
 }, [messages]);
 
 useEffect(() => {
-    const fetchMessages = async () => {
+const fetchMessages = async () => {
     if (session.status === "authenticated") {
-        const userRef = doc(firestore, "users", session.data.user.email);
-        const userDoc = await getDoc(userRef);
-        if (userDoc.exists()) {
-            console.log("In the fetch"+userDoc.data().message);
+    const userRef = doc(firestore, "users", session.data.user.email);
+    const userDoc = await getDoc(userRef);
+    if (userDoc.exists()) {
+        console.log("In the fetch" + userDoc.data().message);
         setMessages(userDoc.data().message);
-        }
-        else{
+    } else {
         // If the document does not exist, create it
         await setDoc(userRef, {
-            message: [{role:"model", parts:[{text:greetingMessage}]}],
-            });
+        message: [{ role: "model", parts: [{ text: greetingMessage }] }],
+        });
         setCurrentMessage(greetingMessage);
-        typeText(greetingMessage)
-        }
+        typeText(greetingMessage);
     }
-    };
+    }
+};
 
-    fetchMessages();
+fetchMessages();
 }, [session]);
 
 const sendMessage = async () => {
-const newMessage = {role:"user", parts:[{text:input}]}
+const newMessage = { role: "user", parts: [{ text: input }] };
 const updatedMessages = [...messages, newMessage];
-console.log("The updated messages in send"+updatedMessages);
+console.log("The updated messages in send" + updatedMessages);
 setMessages(updatedMessages);
 setInput("");
 setIsSending(true);
@@ -104,8 +100,7 @@ try {
         message: input,
         history: updatedMessages.map((msg) => ({
         role: msg.role,
-        //parts: [{ text: msg.text }],
-        parts:msg.parts,
+        parts: msg.parts,
         })),
     }),
     });
@@ -113,7 +108,7 @@ try {
     const data = await response.json();
     if (response.ok) {
     //const botMessage = { role: "model", text: data.text };
-    const botMessage = {role: "model" , parts :[{text:data.text}]}
+    const botMessage = { role: "model", parts: [{ text: data.text }] };
     updatedMessages.push(botMessage);
     setMessages(updatedMessages);
     setCurrentMessage(data.text);
@@ -124,13 +119,11 @@ try {
         if (userDoc.exists()) {
         // If the document exists, update it
         await updateDoc(userRef, {
-            //messages: arrayUnion(newMessage),
-            message: arrayUnion(newMessage, botMessage)
+            message: arrayUnion(newMessage, botMessage),
         });
         } else {
         // If the document does not exist, create it
         await setDoc(userRef, {
-            // messages: [greetingMessage, newMessage], // Store initial greeting and new message
             message: updatedMessages,
         });
         }
@@ -151,7 +144,7 @@ return (
     <Navbar />
     <Box
     width="100%"
-    height="85vh"
+    height="93vh"
     display="flex"
     justifyContent="flex-end"
     alignItems="flex-end"
@@ -165,8 +158,8 @@ return (
     {chatOpen ? (
         <Stack
         direction={"column"}
-        width="500px" // Fixed width
-        height="600px" // Fixed height
+        width={{ xs: "70vw", sm: "60vw", md: "53vw" }} // Fixed width
+        height={{ xs: "78vh", sm: "78vh", md: "78vh" }} // Fixed height
         border="1px solid black"
         p={2}
         bgcolor="rgba(255, 255, 255, 0.8)"
@@ -199,17 +192,25 @@ return (
                 sx={{ width: "100%" }}
             >
                 <Box
-                bgcolor={msg.role === "model" ? "green" : "#CFAF86ff"}
-                color="white"
+                bgcolor={msg.role === "model" ? "green" : "#F2C664"}
+                color={msg.role === "user" ? "black" : "white"}
                 borderRadius="16px"
                 p={2}
                 sx={{ maxWidth: "100%", wordWrap: "break-word" }}
                 >
-                <Typography>
-                    {/* {msg.role === "model" && index === messages.length - 1 */}
+                <Typography
+                    sx={{
+                    fontSize: {
+                        xs: "12px", // small screens
+                        sm: "14px", // tablets
+                        md: "16px", // small laptops
+                        lg: ".9rem", // large laptops
+                        xl: "1.1rem", // desktops
+                    },
+                    }}
+                >
                     {msg.role === "model" && index === messages.length
                     ? displayText
-                    //{/* : msg.text} */}
                     : msg.parts[0].text}
                 </Typography>
                 </Box>
@@ -231,6 +232,7 @@ return (
             variant="contained"
             onClick={sendMessage}
             disabled={isSending}
+            color="success"
             >
             Send
             </Button>
@@ -254,11 +256,20 @@ return (
         }}
         >
         <Box
+            className="message-input"
             display="flex"
             justifyContent="flex-end"
             alignItems="center"
             color="white"
-            sx={{ fontSize: "2rem" }}
+            sx={{
+            fontSize: {
+                xs: "18px", // small screens
+                sm: "20px", // tablets
+                md: "24px", // small laptops
+                lg: "1.5rem", // large laptops
+                xl: "2rem", // desktops
+            },
+            }}
         >
             Ready to start growing your own vegetables? Click the chat icon in
             the bottom right to get started!

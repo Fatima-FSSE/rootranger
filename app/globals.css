@@ -5,7 +5,10 @@
 }
 
 .garder-helper {
-float:right;
- font-size: 1.5rem;
- 
+  float:right;
+  font-size: 1.5rem;
 }
+
+/* .container-div{
+  margin: 2% 4% 2% 4%;
+} */
