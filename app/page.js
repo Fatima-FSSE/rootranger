@@ -4,7 +4,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { useSession } from "next-auth/react";
 
-export default function Home() { 
+export default function Home() {
   const { data: session } = useSession();
   return (
     <>

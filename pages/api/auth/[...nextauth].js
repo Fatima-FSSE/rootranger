@@ -1,20 +1,24 @@
-import NextAuth from 'next-auth';
-import CredentialsProvider from 'next-auth/providers/credentials';
+import NextAuth from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../../app/firebase'
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../../app/firebase";
 
 export const authOptions = {
   pages: {
-    signIn: '/signin'
+    signIn: "/signin",
   },
   providers: [
     CredentialsProvider({
-      name: 'Credentials',
+      name: "Credentials",
       credentials: {},
       async authorize(credentials) {
         try {
-          const userCredential = await signInWithEmailAndPassword(auth, credentials.email || '', credentials.password || '');
+          const userCredential = await signInWithEmailAndPassword(
+            auth,
+            credentials.email || "",
+            credentials.password || ""
+          );
           if (userCredential.user) {
             return userCredential.user;
           }
@@ -26,13 +30,13 @@ export const authOptions = {
           console.log(errorCode, errorMessage);
           return null;
         }
-      }
+      },
     }),
     GoogleProvider({
-        clientId: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET
-      })
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    }),
   ],
-}
+};
 
 export default NextAuth(authOptions);
