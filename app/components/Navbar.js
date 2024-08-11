@@ -18,19 +18,12 @@ return (
         <li className="nav-item">
             <Link className="nav-link active" aria-current="page" href="/">Home</Link>
         </li>
-        {/* <li className="nav-item">
-            {session ? (
-            <Link className="nav-link" href="/chatbot">
-                Gardern Helper
-            </Link>
-            ) : null }
-        </li> */}
         <li className="nav-item">
             <Link className="nav-link" href="#">About</Link>
         </li>
         <li className="nav-item">
             {session ? (
-            <Link className="nav-link" href="/logout" onClick={() => signOut({ callbackUrl: '/' })}>
+            <Link className="nav-link" href="/" onClick={() => signOut({ callbackUrl: '/' })}>
                 SignOut
             </Link>
             ) : (
