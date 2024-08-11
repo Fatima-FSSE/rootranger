@@ -1,9 +1,23 @@
 "use client";
 import "bootstrap/dist/css/bootstrap.min.css";
-export default function Home() {
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import { useSession } from "next-auth/react";
+import Link from 'next/link';
+
+export default function Home() { 
+  const { data: session } = useSession();
   return (
     <main>
-      <div className="container" style={{ width: "90%" }}>
+    <Navbar />
+    <div className="column">
+      <div className="garder-helper">{session ? (
+            <Link className="nav-link" href="/chatbot">
+                Gardern Helper
+            </Link>
+            ) : null }
+      </div>
+       <div className="container">
         {/* Carousel */}
         <div
           id="carouselExampleCaptions"
@@ -104,7 +118,7 @@ export default function Home() {
             ></span>
             <span className="visually-hidden">Next</span>
           </button>
-        </div>
+         </div>
       </div>
 
       {/* Feature Section */}
@@ -117,8 +131,8 @@ export default function Home() {
                   <i className="bi bi-star-fill mb-3"></i>
                   <h5 className="card-title">Feature One</h5>
                   <p className="card-text">
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card&apos;s content.
+                  Some quick example text to build on the card title and make
+                  up the bulk of the card&apos;s content. 
                   </p>
                 </div>
               </div>
@@ -149,7 +163,9 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </section> 
+      </div>
+      <Footer />
     </main>
   );
 }
