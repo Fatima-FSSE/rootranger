@@ -12,8 +12,8 @@ const developers = [
       "Fatima is a passionate frontend developer with a knack for creating beautiful interfaces.",
     skills: ["Java","JavaScript","React","Node","HTML", "CSS", "Bootstrap"],
     image: "/fatima.jpeg",
-    linkedin: "https://linkedin.com/in/fatima",
-    github: "https://github.com/fatima",
+    linkedin: "https://www.linkedin.com/in/fatima-riaz/",
+    github: "https://github.com/Fatima-FSSE",
   },
   {
     name: "Descartes",
@@ -22,8 +22,8 @@ const developers = [
       "Descartes ensures all data flows seamlessly and securely in our applications.",
     skills: ["React", "Node.js", "Express", "MongoDB"],
     image: "/descartes.jpeg",
-    linkedin: "https://linkedin.com/in/descartes",
-    github: "https://github.com/descartes",
+    linkedin: "https://www.linkedin.com/in/tdescartes/",
+    github: "https://github.com/tdescartes",
   },
   {
     name: "Ahmed",
@@ -32,8 +32,8 @@ const developers = [
       "Ahmed loves tackling complex problems and turning them into simple solutions.",
     skills: ["React", "Node.js", "Express", "MongoDB"],
     image: "/ahmed.jpeg",
-    linkedin: "https://linkedin.com/in/ahmed",
-    github: "https://github.com/ahmed",
+    linkedin: "https://www.linkedin.com/in/ahmedhandulle/",
+    github: "https://github.com/ahmedzacki",
   },
 ];
 
