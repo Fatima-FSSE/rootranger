@@ -1,7 +1,3 @@
-Certainly! Here's a GitHub README file for your RootRanger application:
-
----
-
 # RootRanger 🌱
 
 **RootRanger** is an innovative application designed to help users grow their own indoor and outdoor plants, leveraging the power of the Google Gemini AI API. Whether you're a beginner or an experienced gardener, RootRanger provides personalized, real-time advice to guide you through every step of your plant's growth journey.
